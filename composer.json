@@ -1,0 +1,33 @@
+{
+    "name": "Yii2 mutex behavior",
+    "type": "library",
+    "description": "Behavior mutex for controllers action",
+    "keywords": ["single", "instance", "mutex", "controller"],
+    "homepage": "https://github.com/njspok/yii2-mutex-behavior",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Khamov Oleg",
+            "email": "njspok@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "yiisoft/yii2": "^2.0"
+    },
+    "require-dev": {
+        "yiisoft/yii2": "^2.0",
+        "phpunit/phpunit": "4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "njspok\\yii\\mutex\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "njspok\\yii\\mutex\\tests\\": "tests"
+        }
+    }
+}
