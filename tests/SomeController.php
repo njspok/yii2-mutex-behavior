@@ -1,6 +1,6 @@
 <?php
 
-namespace tests;
+namespace njspok\yii\behaviors\tests;
 
 use njspok\yii\behaviors\MutexBehavior;
 

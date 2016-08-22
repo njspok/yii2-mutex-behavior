@@ -22,12 +22,12 @@
     },
     "autoload": {
         "psr-4": {
-            "njspok\\yii\\mutex\\": "src"
+            "njspok\\yii\\behaviors\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "njspok\\yii\\mutex\\tests\\": "tests"
+            "njspok\\yii\\behaviors\\tests\\": "tests"
         }
     }
 }
