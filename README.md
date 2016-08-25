@@ -51,3 +51,7 @@ composer install
 ```
 ./vendor/bin/phpunit
 ```
+
+## In the future
+- trigger event if acquire lock fail
+- configure mutex name
