@@ -22,6 +22,23 @@ class SomeController extends Controller
             ]
         ];
     }
+        
+    /**
+     * This action executed in any case
+     */
+    public function actionWithouMutex()
+    {
+		// some do
+    }
+    
+    /**
+     * This action not executed if already run
+     * @mark-mutex
+     */
+    public function actionWithMutex()
+    {
+		// some do
+    }
 }
 ```
 
