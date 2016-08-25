@@ -4,15 +4,23 @@ namespace njspok\yii\behaviors\tests;
 
 use yii\mutex\Mutex;
 
+/**
+ * Stub mutex do nothing, only log acquire and release mutex.
+ * $log variable show mutex status.
+ */
 class StubMutex extends Mutex
 {
+    public $log = [];
+
     protected function acquireLock($name, $timeout = 0)
     {
-        // TODO: Implement acquireLock() method.
+        $this->log[] = 'acquire';
+        return true;
     }
 
     protected function releaseLock($name)
     {
-        // TODO: Implement releaseLock() method.
+        $this->log[] = 'release';
+        return true;
     }
 }

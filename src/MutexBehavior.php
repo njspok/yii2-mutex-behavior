@@ -6,7 +6,11 @@ use yii\base\ActionEvent;
 use yii\base\Controller;
 use yii\mutex\Mutex;
 
-// todo ActionMutexBehavior
+/**
+ * This behavior add event acquire mutex before action
+ * and release mutex after action executed. If mutex acquire
+ * run same action again impossible.
+ */
 class MutexBehavior extends \yii\base\Behavior
 {
     /**
@@ -19,6 +23,12 @@ class MutexBehavior extends \yii\base\Behavior
      * @var \yii\mutex\Mutex
      */
     protected $mutex;
+
+    /**
+     * String marking action as blocked by mutex.
+     * @var string
+     */
+    protected $annotationMark = '@mutex';
 
     public function events()
     {
@@ -45,11 +55,11 @@ class MutexBehavior extends \yii\base\Behavior
         }
     }
 
-    public function getIsActionMarkAsMutex()
+    protected function getIsActionMarkAsMutex()
     {
         $method = new \ReflectionMethod(get_class($this->owner), $this->owner->action->actionMethod);
         $comment =  $method->getDocComment();
-        return (strpos($comment, '@mutex') !== false);
+        return (strpos($comment, $this->annotationMark) !== false);
     }
 
     public function setMutex($mutex)
@@ -64,6 +74,16 @@ class MutexBehavior extends \yii\base\Behavior
     public function getMutex()
     {
         return $this->mutex;
+    }
+
+    public function setAnnotationMark($mark)
+    {
+        $this->annotationMark = $mark;
+    }
+
+    public function getAnnotationMark()
+    {
+        return $this->annotationMark;
     }
 
     protected function getMutexName()
