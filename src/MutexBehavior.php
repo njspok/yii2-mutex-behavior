@@ -11,7 +11,14 @@ use yii\mutex\Mutex;
  * and release mutex after action executed. If mutex acquire
  * run same action again impossible.
  *
- * The mutex name specify in PHPDOC for mark action as protected by mutex.
+ * The annotation mark specify in PHPDOC for mark action as protected by mutex.
+ *
+ * Mutex name specify unique mutex lock.
+ * Name maybe depends different parameters what give flexibility configuration.
+ * For example, specified mutex name may locked:
+ * - only one action
+ * - all controllers actions
+ * - one action in depend action parameters
  */
 class MutexBehavior extends \yii\base\Behavior
 {

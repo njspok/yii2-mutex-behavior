@@ -19,6 +19,7 @@ class SomeController extends Controller
                 'class' => MutexBehavior::className(),
                 'mutex' => FileMutex::className(),
                 'annotationMark' => '@mark-mutex',
+                // 'mutexName' => string or callable
             ]
         ];
     }
