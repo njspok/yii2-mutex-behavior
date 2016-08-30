@@ -48,4 +48,33 @@ class MutexBehaviorTest extends \PHPUnit_Framework_TestCase
         $mark = $behavior->getAnnotationMark();
         $this->assertEquals('@my-mark', $mark);
     }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testSetInvalidMutexName()
+    {
+        $behavior = new MutexBehavior();
+
+        $this->setExpectedException('InvalidArgumentException');
+        $behavior->mutexName = false;
+        $behavior->mutexName = true;
+        $behavior->mutexName = 0;
+    }
+
+    public function testSetGetMutexName()
+    {
+        $behavior = new MutexBehavior();
+
+        // set string
+        $behavior->mutexName = "some-name-for-mutex";
+        $this->assertEquals("some-name-for-mutex", $behavior->mutexName);
+
+        // set callable
+        $name = function () {
+            return "some-name-for-mutex";
+        };
+        $behavior->mutexName = $name;
+        $this->assertEquals("some-name-for-mutex", $behavior->mutexName);
+    }
 }

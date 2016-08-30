@@ -10,6 +10,8 @@ use yii\mutex\Mutex;
  * This behavior add event acquire mutex before action
  * and release mutex after action executed. If mutex acquire
  * run same action again impossible.
+ *
+ * The mutex name specify in PHPDOC for mark action as protected by mutex.
  */
 class MutexBehavior extends \yii\base\Behavior
 {
@@ -25,6 +27,12 @@ class MutexBehavior extends \yii\base\Behavior
     protected $mutex;
 
     /**
+     * Mutex name
+     * @var string|null|\Closure
+     */
+    protected $mutexName;
+
+    /**
      * String marking action as blocked by mutex.
      * @var string
      */
@@ -38,6 +46,11 @@ class MutexBehavior extends \yii\base\Behavior
         ];
     }
 
+    /**
+     * Try get lock.
+     * Mark event as invalid if try lock fail.
+     * @param ActionEvent $event
+     */
     public function lock(ActionEvent $event)
     {
         if ($this->getIsActionMarkAsMutex()) {
@@ -48,6 +61,10 @@ class MutexBehavior extends \yii\base\Behavior
         }
     }
 
+    /**
+     * Release lock.
+     * @param ActionEvent $event
+     */
     public function unlock(ActionEvent $event)
     {
         if ($this->getIsActionMarkAsMutex()) {
@@ -55,6 +72,10 @@ class MutexBehavior extends \yii\base\Behavior
         }
     }
 
+    /**
+     * Current action marked for lock?
+     * @return bool
+     */
     protected function getIsActionMarkAsMutex()
     {
         $method = new \ReflectionMethod(get_class($this->owner), $this->owner->action->actionMethod);
@@ -62,6 +83,12 @@ class MutexBehavior extends \yii\base\Behavior
         return (strpos($comment, $this->annotationMark) !== false);
     }
 
+    /**
+     * Set mutex realization.
+     * Param $mutex may be specified for \Yii::createObject().
+     * @param Mutex|array $mutex
+     * @throws \yii\base\InvalidConfigException
+     */
     public function setMutex($mutex)
     {
         if ($mutex instanceof Mutex) {
@@ -71,23 +98,63 @@ class MutexBehavior extends \yii\base\Behavior
         }
     }
 
+    /**
+     * Get mutex.
+     * @return Mutex
+     */
     public function getMutex()
     {
         return $this->mutex;
     }
 
+    /**
+     * Set name annotation mark.
+     * @param string $mark
+     */
     public function setAnnotationMark($mark)
     {
         $this->annotationMark = $mark;
     }
 
+    /**
+     * Get name annotation mark.
+     * @return string
+     */
     public function getAnnotationMark()
     {
         return $this->annotationMark;
     }
 
-    protected function getMutexName()
+    /**
+     * Get mutex name.
+     * @return string
+     */
+    public function getMutexName()
     {
+        if ($this->mutexName) {
+            if (is_string($this->mutexName)) {
+                return $this->mutexName;
+            }
+
+            if (is_callable($this->mutexName)) {
+                return call_user_func($this->mutexName);
+            }
+        }
+
         return get_class($this->owner) . $this->owner->action->id;
+    }
+
+    /**
+     * Set mutex name.
+     * @param null|string|\Closure $value
+     */
+    public function setMutexName($value)
+    {
+        if (is_string($value) || is_callable($value) || is_null($value)) {
+            $this->mutexName = $value;
+            return;
+        }
+
+        throw new \InvalidArgumentException("Mutex name must be a string or callable or null");
     }
 }
