@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/njspok/yii2-mutex-behavior.svg?branch=master)](https://travis-ci.org/njspok/yii2-mutex-behavior/)
+[![Code Climate](https://codeclimate.com/github/njspok/yii2-mutex-behavior/badges/gpa.svg)](https://codeclimate.com/github/njspok/yii2-mutex-behavior)
 
 # yii2-mutex-behavior
 
