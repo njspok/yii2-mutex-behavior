@@ -1,3 +1,5 @@
+https://travis-ci.org/njspok/yii2-mutex-behavior.svg?branch=master
+
 # yii2-mutex-behavior
 
 This behavior add concurrent lock on action controller.
